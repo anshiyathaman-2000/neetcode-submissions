@@ -1,0 +1,36 @@
+class Solution:
+    def maxAreaOfIsland(self, grid):
+        rows = len(grid)
+        cols = len(grid[0])
+        max_area = 0
+
+        def dfs(r, c):
+            # Boundary check or water
+            if r < 0 or r >= rows or c < 0 or c >= cols:
+                return 0
+
+            if grid[r][c] == 0:
+                return 0
+
+            # Mark visited
+            grid[r][c] = 0
+
+            # Current cell contributes 1
+            area = 1
+
+            # Explore 4 directions
+            area += dfs(r + 1, c)  # down
+            area += dfs(r - 1, c)  # up
+            area += dfs(r, c + 1)  # right
+            area += dfs(r, c - 1)  # left
+
+            return area
+
+        # Visit every cell
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 1:
+                    area = dfs(r, c)
+                    max_area = max(max_area, area)
+
+        return max_area
